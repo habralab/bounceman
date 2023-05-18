@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf8">
+    <title>MTA bounces collector</title>
+    <link rel="icon" href="data:image/png;base64">
+</head>
+<body>
+    <style>
+        body {
+            width: 1140px;
+            margin: 0 auto;
+            font-family: Ubuntu,'Liberation Sans',Helvetica,Arial,-apple-system,sans-serif;
+            font-size: 16px;
+            color: black;
+        }
+        form {
+            margin: 8px 0 4px;
+        }
+        select {
+            height: 30px;
+            background-color: inherit;
+            border: solid 1px #999;
+            border-radius: 4px;
+            padding: 1px 6px;
+        }
+        input {
+            height: 26px;
+            background-color: inherit;
+            border: solid 1px #999;
+            border-radius: 4px;
+            padding: 1px 6px;
+        }
+        button {
+            background-color: #eee;
+            cursor: pointer;
+            width: 60px;
+            height: 30px;
+            border: solid 1px #999;
+            border-radius: 4px;
+            padding: 1px 6px;
+        }
+        .help-block {
+            color: gray;
+            font-size: 14px;
+        }
+        .alert {
+            margin: 12px 0;
+            padding: 20px;
+            border: solid 1px #aaa;
+            border-radius: 4px;
+        }
+        table {
+            margin: 8px 0;
+            width: 100%;
+            border-collapse: collapse;
+            border: solid 1px #dee2e6;
+        }
+        table caption {
+            text-align: left;
+            padding: 6px;
+            color: #666;
+        }
+        table th {
+            text-align: left;
+        }
+        table td {
+            border-top: solid 1px #dee2e6;
+        }
+        table td, table th {
+            padding: 6px;
+        }
+        a {
+            text-decoration: none;
+        }
+        pre {
+            white-space: pre-wrap;
+            margin: 0px;
+            padding: 12px;
+            font-size: 14px;
+        }
+        footer {
+            margin-top: 26px;
+            text-align: right;
+            border-top: solid 1px #ddd;
+            padding: 10px 0px;
+            font-size: 14px;
+        }
+    </style>
+
+    <h2>MTA bounces collector</h2>
+
+    <form method="get" autocomplete="off">
+        <select name="id">
+            <option></option>
+            <?php foreach ($mboxes as $mbox): ?>
+                <?php printf(
+                    '<option value="%s"%s>%s</option>',
+                    $mbox['id'],
+                    $filter['id'] == $mbox['id'] ? ' selected' : '',
+                    $mbox['name']) ?>
+            <?php endforeach ?>
+        </select>
+        <input type="date" name="since" placeholder="Date start"
+               value="<?= $filter['since'] ?>" class="form-control">
+        <input type="date" name="until" placeholder="Date finish"
+               value="<?= $filter['until'] ?>" class="form-control">
+        <input type="email" name="email" placeholder="Recipient"
+               value="<?= $filter['email'] ?>" class="form-control">
+        <button type="submit" class="btn btn-default btn-primary">GET</button>
+    </form>
+    <span class="help-block">Dates in UTC</span>
+
+    <?php if (count($result)): ?>
+    <table>
+        <caption>
+            Query result: <?= count($result) ?>, unique for period: <?= count(array_unique(array_column($result, 'recipient'))) ?>
+        </caption>
+        <colgroup>
+            <col width="35%" />
+            <col width="30%" />
+            <col width="30%" />
+            <col width="5%" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Delivery date</th>
+                <th>Envelope to</th>
+                <th>Failed recipient</th>
+                <th>Error</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($result as $row): ?>
+            <tr>
+                <td><?= date('Y-m-d H:i:s', $row['delivery_date']) ?></td>
+                <td><?= $row['envelope_to'] ?></td>
+                <td><?= $row['recipient'] ?></td>
+                <td>
+                    <a href="javascript:void(0)" class="show-error">Show</a>
+                </td>
+            </tr>
+            <tr hidden>
+                <td colspan="4">
+                    <pre><?= htmlspecialchars($row['error_text']) ?></pre>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php else: ?>
+    <div class="alert">
+        Nothing found
+    </div>
+    <?php endif ?>
+
+    <footer>
+        <?= substr((new DateTimeImmutable())->format('r'), 0, -6); ?>
+    </footer>
+
+    <script>
+        document.addEventListener('click', function(ev) {
+            if (ev.target.className != 'show-error') {
+                return;
+            };
+            var next_tr = ev.target.closest('tr').nextElementSibling;
+            next_tr.hidden = !next_tr.hidden;
+        });
+    </script>
+</body>
+</html>
