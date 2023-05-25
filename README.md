@@ -23,7 +23,7 @@ Key features:
 * Getting details about a delivery failure by email address
 * The service is developed in PHP and requires MariaDB/MySQL. The IMAP servers polling frequency is configurable using cron.
 
-Setup and configuration [instructions](dec/INSTALL.en.md) located in `doc` directory.
+Setup and configuration [instructions](doc/INSTALL.en.md) located in `doc` directory.
 
 Copyright (c) 2023 [Habr], 2023 [Egor Derevyankin], 2023 [Vadim Rybalko]
 
