@@ -21,7 +21,8 @@ Key features:
 * The functionality of the HTTP API is completely duplicated by the CLI
 * Getting a list of failed emails by time range
 * Getting details about a delivery failure by email address
-* The service is developed in PHP and requires MariaDB/MySQL. The IMAP servers polling frequency is configurable using cron.
+
+The service is developed in PHP and requires MariaDB/MySQL. The IMAP servers polling frequency is configurable using cron.
 
 Setup and configuration [instructions](doc/INSTALL.en.md) located in `doc` directory.
 
