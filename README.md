@@ -24,7 +24,7 @@ Key features:
 
 The service is developed in PHP and requires MariaDB/MySQL. The IMAP servers polling frequency is configurable using cron.
 
-Setup and configuration [instructions](docs/INSTALL.en.md) located in `doc` directory.
+Setup and configuration [instructions](docs/INSTALL.en.md) located in `docs` directory.
 
 Copyright (c) 2023 [Habr], 2023 [Egor Derevyankin], 2023 [Vadim Rybalko]
 
