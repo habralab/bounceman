@@ -17,4 +17,4 @@ We prefer all communications to be in English or Russian.
 ## Reporting a Vulnerability
 
 Please send security reports about found vulnerabilities to [oss@habr.com](oss@habr.com) 
-or open a new Github issue.
+or open a new Github [issue](https://github.com/habralab/bounceman/issues).
