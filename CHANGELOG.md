@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Security policy
+- Help cli command
+
+### Changed
+
+- Add reference to help when no cli command specified
 
 ### Fixed
 
