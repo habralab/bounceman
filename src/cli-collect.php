@@ -70,7 +70,7 @@ function fmc_collect_process(array $mbox, PDOStatement $bounce_stmt, PDOStatemen
 
         $body = imap_body($imap, $mid, FT_UID);
         $_t0 = explode($ERR_TEXT_DELIMITER, explode($ERR_BODY_DELIMITER, $body)[0]);
-        $error_text = trim(isset($_t0[1]) ? $_t0[1] : $_t0[0]);
+        $error_text = substr(trim(isset($_t0[1]) ? $_t0[1] : $_t0[0]), 0, 65535);
 
         try {
             $bounce_stmt->execute([
