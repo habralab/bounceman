@@ -62,6 +62,8 @@ disable MBOX	- disable a mailbox named MBOX
 
 test MBOX	- test IMAP connection to a mailbox named MBOX
 
+delete MBOX	- deleting a mailbox named MBOX
+
 check [OPTIONS] [EMAIL]...	- search for a failed recipient email address in the list of bounce hits
 	OPTIONS:
 		--since	- date/time of the search time interval beginning
