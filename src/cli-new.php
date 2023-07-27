@@ -9,7 +9,7 @@ return function (array $config): int
     printf("New mailbox\n");
     $name = readline("name: ");
     $host = readline("host address (optional host:port): ");
-    $secure = strtolower(readline("use SSL/TLS [Y/n]: ") ?: 'y') == 'y';
+    $secure = (readline_only_char("use SSL/TLS [Y/n]: ", "yn") ?: 'y') == 'y';
     $username = readline("username: ");
     $password = readline("password: ");
     $finbox = readline("inbox folder [INBOX]: ") ?: 'INBOX';

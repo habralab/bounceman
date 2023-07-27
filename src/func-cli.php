@@ -51,3 +51,14 @@ function getopts(array $argv, array $look): array
         'ridx' => $r
     ];
 }
+
+function readline_only_char(string $prompt, string $chars): string|false
+{
+    do {
+        $c = readline($prompt);
+        if ($c === false || $c === '') return false;
+        $c = strtolower($c);
+    } while (strlen($c) != 1 || strpos($chars, $c) === false);
+
+    return $c;
+}
