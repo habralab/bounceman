@@ -10,15 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Security policy
-- Help cli command
+- Help CLI command
 
 ### Changed
 
 - Add reference to help when no cli command specified
+- Delete CLI command
 
 ### Fixed
 
 - Documentation improvements
+- Prevent STARTTLS for non-secure connections
+- Fix SQL error when error text is too long
 
 ## [1.0.0] - 2023-05-26
 

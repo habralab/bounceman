@@ -15,7 +15,7 @@ return function (array $config, array $argv): int
         return 1;
     };
 
-    $spec = sprintf("{%s%s}", $mbox['host'], $mbox['secure'] ? '/ssl' : '');
+    $spec = sprintf("{%s%s}", $mbox['host'], $mbox['secure'] ? '/ssl' : '/notls');
     $imap = @imap_open($spec, $mbox['username'], $mbox['password'], OP_HALFOPEN);
     if (!$imap) {
         printf("ERROR: %s\n", imap_last_error());
