@@ -15,7 +15,7 @@ return function (array $config, array $argv): int
 
     printf("Edit mailbox\n");
     $name = readline(sprintf("name [%s]: ", $mbox['name'])) ?: $mbox['name'];
-    $host = readline(sprintf("host address [%s]: ", $mbox['host'])) ?: $mbox['host'];
+    $host = readline(sprintf("host address (optional host:port) [%s]: ", $mbox['host'])) ?: $mbox['host'];
     $secure = strtolower(readline(sprintf("use SSL/TLS [%s]: ", $mbox['secure'] ? 'Y/n' : 'y/N')) ?: "ny"[$mbox['secure']]) == 'y';
     $username = readline(sprintf("username [%s]: ", $mbox['username'])) ?: $mbox['username'];
     $password = readline("password [*****]: ") ?: $mbox['password'];
