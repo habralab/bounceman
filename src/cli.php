@@ -7,6 +7,7 @@ $cpath = sprintf('%s/%s.ini', getcwd(), pathinfo($argv[0])['filename']);
 
 try {
     $ecode = match ($argv[1] ?? '') {
+        'help' => (include __DIR__ . '/cli-help.php')(),
         'init' => (include __DIR__ . '/cli-init.php')($cpath),
         'new' => (include __DIR__ . '/cli-new.php')(config($cpath)),
         'list' => (include __DIR__ . '/cli-list.php')(config($cpath)),
@@ -18,7 +19,7 @@ try {
         'collect' => (include __DIR__ . '/cli-collect.php')(config($cpath), array_slice($argv, 2)),
         'check' => (include __DIR__ . '/cli-check.php')(config($cpath), array_slice($argv, 2)),
         'dump' => (include __DIR__ . '/cli-dump.php')(config($cpath), array_slice($argv, 2)),
-        default => printf("unknown command\n") & 0 | 1
+        default => printf("Unknown command or no command specified. Use help for reference.\n") & 0 | 1
     };
     exit($ecode);
 } catch (Throwable $ex) {

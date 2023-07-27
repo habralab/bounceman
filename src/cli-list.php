@@ -9,8 +9,20 @@ return function (array $config): int
     $sql = sprintf('select * from `mbox`');
     $rows = $mysql->query($sql)->fetchAll();
 
+    if ($rows) {
+        printf("List of mailboxes:\n\n");
+    };
+
     foreach ($rows as $row) {
-        printf("%s %-12s %-16s\n", $row['is_active'] ? '+' : '-', $row['name'], $row['host']);
+        printf("* %s (%s) - %s\n", $row['name'], $row['host'], $row['is_active'] ? 'active' : 'inactive');
+    };
+
+    if (!$rows) {
+        printf("The list is empty\n");
+    } else if (count($rows) === 1) {
+        printf("\nTotal 1 mailbox\n");
+    } else {
+        printf("\nTotal %s mailboxes\n", count($rows));
     };
 
     return 0;

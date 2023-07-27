@@ -43,9 +43,11 @@ Console commands
 
 Console commands are run like this: `php bounceman.phar COMMAND`.
 
-The `--since` and `--until` options accept adte/time in the format described [here](https://www.php.net/manual/en/datetime.formats.php).
+The `--since` and `--until` options accept date/time in the format described [here](https://www.php.net/manual/en/datetime.formats.php).
 
 ```
+help	- short cli reference
+
 init	- database initialisation, run before use
 
 new	- adding a mailbox for collect bounces
