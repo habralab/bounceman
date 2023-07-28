@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Security policy
 - Help CLI command
 - Host and port inline help
+- Restrict input chars for mbox "secure" property
 
 ### Changed
 
