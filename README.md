@@ -4,6 +4,9 @@ Bounceman
 Readme in different languages:
 * [Русский (Russian)](README.ru.md)
 
+About
+-----
+
 Bounceman is a software for collecting email non-delivery reports (bounces, mailer-daemon reports).
 
 The success of an email subscription distribution depends on up-to-dateness of the email database. 
@@ -22,10 +25,16 @@ Key features:
 * Getting a list of failed emails by time range
 * Getting details about a delivery failure by email address
 
+Requirements
+------------
+
 The service is developed in PHP and requires MariaDB/MySQL. The IMAP servers polling frequency is configurable using cron.
+
+Install
+--------
 
 Setup and configuration [instructions](docs/INSTALL.en.md) located in `docs` directory.
 
-Copyright (c) 2023 [Habr], 2023 [Egor Derevyankin], 2023 [Vadim Rybalko]
+Copyright (c) 2024 [Habr], 2023 [Egor Derevyankin], 2023 [Vadim Rybalko]
 
 License: [MIT](LICENSE)
