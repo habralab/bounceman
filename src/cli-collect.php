@@ -78,7 +78,7 @@ function fmc_collect_process(array $mbox, PDOStatement $bounce_stmt, PDOStatemen
                 'date' => (new DateTime($hdrs['delivery-date']))->getTimestamp(),
                 'env_to' => $hdrs['envelope-to'],
                 'fld_rcpt' => $hdrs['x-failed-recipients'],
-                'err_txt' => $error_text
+                'err_txt' => quoted_printable_encode($error_text)
             ]);
         } catch (PDOException $ex) {
             ++$failed;
