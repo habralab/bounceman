@@ -16,7 +16,23 @@ function config(string $path): array
 
 function dbc(array $config): PDO
 {
-    $dsn = sprintf('mysql://host=%s;dbname=%s', $config['host'] ?? '', $config['dbname']);
+    $dsn = [];
+
+    if (isset($config['socket'])) {
+        $dsn[] = 'unix_socket=' . $config['socket'];
+    } elseif (isset($config['host'])) {
+        $dsn[] = 'host=' . $config['host'];
+        if (isset($config['port'])) {
+            $dsn[] = 'port=' . $config['port'];
+        };
+    };
+
+    if (isset($config['dbname'])) {
+        $dsn[] = 'dbname=' . $config['dbname'];
+    };
+
+    $dsn[] = 'charset=utf8';
+    $cstr = 'mysql:' . implode(';', $dsn);
     $opts = [
         PDO::ATTR_TIMEOUT => 3,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -24,7 +40,7 @@ function dbc(array $config): PDO
     ];
 
     try {
-        return new PDO($dsn, $config['username'], $config['password'], $opts);
+        return new PDO($cstr, $config['username'], $config['password'], $opts);
     } catch (PDOException $ex) {
         $error = sprintf('Fail to connect to mysql: %s', $ex->getMessage());
         throw new RuntimeException($error);

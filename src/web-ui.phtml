@@ -72,6 +72,8 @@
         }
         a {
             text-decoration: none;
+            color: #0000ee;
+            cursor: pointer;
         }
         pre {
             white-space: pre-wrap;
@@ -85,6 +87,27 @@
             border-top: solid 1px #ddd;
             padding: 10px 0px;
             font-size: 14px;
+        }
+        .pagination {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: .25em;
+            row-gap: .25em;
+        }
+        .pg {
+            display: inline-flex;
+            width: 1.75em;
+            height: 1.75em;
+            border: solid 1px #dee2e6;
+            justify-content: center;
+            align-items: center;
+            padding-left: .25em;
+            padding-right: .25em;
+        }
+        .pg:hover, .pg.active {
+            border: solid 1px #0000ee;
         }
     </style>
 
@@ -114,7 +137,7 @@
     <?php if (count($result)): ?>
     <table>
         <caption>
-            Query result: <?= count($result) ?>, unique for period: <?= count(array_unique(array_column($result, 'recipient'))) ?>
+            Query result: <?= $total ?>, unique for period: <?= $unqcount ?>
         </caption>
         <colgroup>
             <col width="35%" />
@@ -137,17 +160,26 @@
                 <td><?= $row['envelope_to'] ?></td>
                 <td><?= $row['recipient'] ?></td>
                 <td>
-                    <a href="javascript:void(0)" class="show-error">Show</a>
+                    <a class="show-error">Show</a>
                 </td>
             </tr>
-            <tr hidden>
+            <tr hidden data-load="0" data-id="<?= $row['id'] ?>">
                 <td colspan="4">
-                    <pre><?= htmlspecialchars($row['error_text']) ?></pre>
+                    <pre>Loading...</pre>
                 </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if (count($pages)):  ?>
+        <ul class="pagination">
+        <?php foreach ($pages as $p): ?>
+            <li>
+                <a class="pg <?= $p['a'] ? 'active' : '' ?>" href="<?= $p['u'] ?>"><?= $p['n'] ?></a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif;  ?>
     <?php else: ?>
     <div class="alert">
         Nothing found
@@ -165,6 +197,13 @@
             };
             var next_tr = ev.target.closest('tr').nextElementSibling;
             next_tr.hidden = !next_tr.hidden;
+            if (next_tr.getAttribute('data-load') == '0') {
+                next_tr.setAttribute('data-load', '1');
+                window
+                    .fetch('/geterror?id=' + next_tr.getAttribute('data-id'))
+                    .then((resp) => resp.text())
+                    .then((text) => next_tr.children.item(0).innerHTML = '<pre>' + text + '</pre>');
+            };
         });
     </script>
 </body>

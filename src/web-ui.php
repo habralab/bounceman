@@ -8,7 +8,8 @@ return function (array $config, array $argv)
         'id' => $argv['id'] ?? 0,
         'since' => $argv['since'] ?? (new DateTimeImmutable('yesterday'))->format('Y-m-d'),
         'until' => $argv['until'] ?? '',
-        'email' => $argv['email'] ?? ''
+        'email' => $argv['email'] ?? '',
+        'page' => $argv['page'] ?? 1
     ];
 
     $mysql = dbc($config['mysql']);
@@ -36,8 +37,28 @@ return function (array $config, array $argv)
         $where[] = sprintf('`recipient` = %s', $mysql->quote($email));
     };
 
-    $sql = 'select * from `bounce` where ' . (count($where) ? implode(' and ', $where) : '1');
-    $result = $mysql->query($sql, PDO::FETCH_ASSOC)->fetchAll();
+    $wstr = count($where) ? implode(' and ', $where) : '1';
+    $sql = sprintf('select count(*), count(distinct `recipient`) from `bounce` where %s', $wstr);
+    [$total, $unqcount] = $mysql->query($sql)->fetch();
+
+    $limit = 50;
+    $offset = ($filter['page'] - 1) * $limit;
+    $sql = sprintf(
+        'select `id`, `delivery_date`, `envelope_to`, `recipient` from `bounce` where %s limit %d, %d',
+        $wstr,
+        $offset,
+        $limit
+    );
+    $result = $mysql->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+    $pages = [];
+    if ($total > $limit) {
+        $a = array_filter($filter);
+        $pages = array_map(
+            fn ($p) => ['n' => $p, 'a' => $p == $a['page'], 'u' => '/?' . http_build_query(array_merge($a, ['page' => $p]))],
+            range(1, ceil($total / $limit))
+        );
+    };
 
     ob_start();
     include __DIR__ . '/web-ui.phtml';

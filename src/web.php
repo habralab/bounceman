@@ -11,6 +11,7 @@ try {
         '/' => (include __DIR__ . '/web-ui.php')(config($cpath), $_GET),
         '/check' => (include __DIR__ . '/web-check.php')(config($cpath), $_GET),
         '/dump' => (include __DIR__ . '/web-dump.php')(config($cpath), $_GET),
+        '/geterror' => (include __DIR__ . '/web-geterror.php')(config($cpath), $_GET),
         default => fmc_web_e404()
     };
 } catch (InvalidArgumentException $ex) {
